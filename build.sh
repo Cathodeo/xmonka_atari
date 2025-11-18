@@ -4,7 +4,7 @@
 mktemp /tmp/magical.bas
 
 # Concatenate in the proper order
-cat  monimg.bas procedures.bas init.bas familiar.bas main.bas > /tmp/magical.bas
+cat  monimg.bas init.bas familiar.bas battlemsg.bas main.bas > /tmp/magical.bas
 
 # Compile with FastBasic
 fastbasic /tmp/magical.bas 

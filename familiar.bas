@@ -18,7 +18,7 @@
 '85-134 positions: Ally move2 Description '
 '135-144 positions: Ally ability name, when applies'
 '145-184 positions: Ally ability description'
-'185-193 Positions: Ally type'
+'185-193 Positions: Ally type"                                                  "
 '194-254 Positions : Boosted move tooltip'
 '''''''''''''''''''''''''''''''''''''''''
 '''Foe descriptions are not needed, as they
@@ -70,17 +70,24 @@ DIM F_COOLDOWN(4)
     F_COOLDOWN(2) = 0
 
 'Robert'
-    F_HP(3) = 4
-    F_TYPE(3) = 4
+    F_HP(3) = 6
+    F_TYPE(3) = 2
     F_MOVE(3) = 9
     F_ABILITY(3) = 0
     F_COOLDOWN(3) = 1
+    
+'Zubrix'
+    F_HP(3) = 11
+    F_TYPE(3) = 1
+    F_MOVE(3) = 11
+    F_ABILITY(3) = 0
+    F_COOLDOWN(3) = 3
 
 
 
 'Array to track the familiar in game'
 
-    DIM CURRENT_FAMILIAR(7)
+    DIM CURRENT_FAMILIAR(9)
 
     '0 = SPECIES'
     '1 = CURRENT_HP'
@@ -90,6 +97,7 @@ DIM F_COOLDOWN(4)
     '5 = CURRENT_EQUIP'
     '6 = STATUS'
     '7 = CURRENT_COOLDOWN'
+    '8 = ABILITY'
 
 
 'Init a familiar'
@@ -103,8 +111,8 @@ PROC INIT_NEW_FAMILIAR SPECIES
     CURRENT_FAMILIAR(5) = 0
     CURRENT_FAMILIAR(6) = 0
     CURRENT_FAMILIAR(7) = F_COOLDOWN(SPECIES)
+    CURRENT_FAMILIAR(8) = F_ABILITY(SPECIES)
 ENDPROC
-
 
 
 
@@ -119,40 +127,97 @@ ENDPROC
 PROC SECOND_NAME_DESCRIPTION
     CURRENT_EQUIP = CURRENT_FAMILIAR(5)
     IF CURRENT_EQUIP = 0
-        FBuffer$=+"          "
+        FBuffer$=+"                                                  "
     ENDIF
+ENDPROC
+
+
+PROC ABILITY_NAME
+    CURRENT_ABILITY = CURRENT_FAMILIAR(8)
+    IF CURRENT_ABILITY = 0
+        FBuffer$=+"          "
+    ELSE
+        'Careful, nested if spaghetti'
+        IF CURRENT_ABILITY = 1
+             FBuffer$=+"SPRING END"
+        ELSE
+            FBuffer$=+"TAMPER FM "
+        'ELSE should be replaced by elif when more than two abilities
+        'are to be introduced'
+        ENDIF
+
+    ENDIF
+
+ENDPROC
+
+
+PROC ABILITY_DESCRIPTION
+    CURRENT_ABILITY = CURRENT_FAMILIAR(8)
+    IF CURRENT_ABILITY = 0
+        FBuffer$="                                        "
+    ELSE
+        'Careful, nested if spaghetti'
+        IF CURRENT_ABILITY = 1
+             FBuffer$=+"DISCARD MARZENA AND DEAL DAMAGE = HER HP"
+        ELSE
+            FBuffer$=+"PASSIVE: THE FOE SWITCHES AT RANDOM NOW."
+        'ELSE should be replaced by elif when more than two abilities
+        'are to be introduced'
+        ENDIF
+
+    ENDIF
+
 ENDPROC
 
 'Display the current familiar in play'
 'Painful to write as there is no CASE/SELECT statement in FastBasic'
 'Ah, also, the String type uses 256 bytes, so we are using an array of BYTES'
 PROC FAMILIAR_STRING CURRENT_FAM
+
     IF CURRENT_FAM = 0
         FBuffer$= "BIONA  "
         FBuffer$=+ "       "
         FBuffer$=+"PESTILENCE"
         EXEC SECOND_MOVE_NAME
+        FBuffer$=+ "FLIP A COIN, IF HEADS, THE ENEMY IS NOW POISONED. "
+        EXEC SECOND_NAME_DESCRIPTION
+        EXEC ABILITY_NAME
 
     ELIF CURRENT_FAM = 1
         FBuffer$ = "MARZENA"
         FBuffer$=+ "       "
         Fbuffer$=+ "BLOSSOM   "
         EXEC SECOND_MOVE_NAME
+        FBuffer$=+ "DRAW AN ADDITIONAL CARD. MARZENA SELF HEALS 1HP.  "
+        EXEC SECOND_NAME_DESCRIPTION
+        EXEC ABILITY_NAME
     ELIF CURRENT_FAM = 2
         FBuffer$ = "RATDIO "
         FBuffer$=+ "       "
         FBuffer$=+ "SINE WAVE "
         EXEC SECOND_MOVE_NAME
+        FBuffer$=+ "EVERY SECOND TURN THE ATTACK DEALS DOUBLE DAMAGE. "
+        EXEC SECOND_NAME_DESCRIPTION
+        EXEC ABILITY_NAME
+        
     ELIF CURRENT_FAM = 3
         FBuffer$ = "ROBERT "
         FBuffer$=+ "       "
         FBuffer$=+ "PISTOLET  "
         EXEC SECOND_MOVE_NAME
+        FBuffer$=+ "3 COINS, EVERY SUCCESSFUL HEAD DOUBLES DAMAGE     ."
+        EXEC SECOND_NAME_DESCRIPTION
+        EXEC ABILITY_NAME
+
     ELIF CURRENT_FAM = 4
         FBuffer$ = "ZUBRIX "
         FBuffer$=+ "       "
         FBuffer$=+ "RAMPAGE   "
         EXEC SECOND_MOVE_NAME
+        FBuffer$=+ "IF THE FOE IS HOLDING A BOOSTER, IT IS DISCARDED. "
+        EXEC SECOND_NAME_DESCRIPTION
+        EXEC ABILITY_NAME
+
 
     ENDIF   
 ENDPROC

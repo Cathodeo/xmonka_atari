@@ -13,11 +13,11 @@
 'values since BASIC won't automatically check for type safety
 
 DIM selection
-selection = 0
+selection = -1
 DIM endbattle
 endbattle = 0
 
-WHILE selection < 1 OR selection > 4
+WHILE selection < 0 OR selection > 4
     INPUT "SELECT FAMILIAR ID TO TEST, 1-4"; selection
     IF selection < 0 OR selection > 4 THEN PRINT "Invalid selection, try again"
 WEND 
@@ -26,9 +26,16 @@ PRINT "You have selected the number", selection
 ?
 CURRENT_FAM = selection
 
-EXEC FAMILIAR_STRING CURRENT_FAM
+exec INIT_NEW_FAMILIAR CURRENT_FAM
+exec FAMILIAR_STRING CURRENT_FAM
 
+exec PRINT_FAMILIAR_NAME
+exec PRINT_MOVE1_NAME
+exec PRINT_MOVE1_DESCRIPTION
+exec PRINT_ABILITY_NAME_
+exec PRINT_ABILITY_DESCRIPTION
 
+INPUT "", PLACEHOLDER
 
 INPUT ""; selection
 
@@ -43,8 +50,7 @@ EXEC COPY_MONSTER_DEST CURRENT_FAM, 10, 10
 EXEC COPY_MONSTER_DEST_MIRROR_H 3, 240, 80
 
 POSITION 10, 20
-PRINT "FAMILIAR: "; Fbuffer$[1, 7]
-POSITION 120, 20
-PRINT "MOVE1: " ; Fbuffer$[15, 9]
-INPUT ; TEST$
+exec PRINT_MOVE1_NAME
+POSITION 0, 0
+INPUT ""; PLACEHOLDER
 
