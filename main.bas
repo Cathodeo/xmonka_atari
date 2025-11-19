@@ -1,5 +1,5 @@
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'Magical Girl Kasziula'
+'Xmonka'
 
 'Fastbasic does not have include directives, so 
 'the build script will fake them by basically concatenating files'
@@ -39,18 +39,40 @@ INPUT "", PLACEHOLDER
 
 INPUT ""; selection
 
-WHILE endbattle = 1
-    'Essentially, the battle loop goes here until endbattle is 1'
 
-WEND
 CLS
 
-EXEC INIT_GRAPHICAL_BATTLE
-EXEC COPY_MONSTER_DEST CURRENT_FAM, 10, 10
-EXEC COPY_MONSTER_DEST_MIRROR_H 3, 240, 80
+MAX_HP_SELF_FAMILIAR = F_HP(CURRENT_FAM)
+CURRENT_HP_SELF_FAMILIAR = CURRENT_FAMILIAR(1)
 
-POSITION 10, 20
-exec PRINT_MOVE1_NAME
-POSITION 0, 0
+EXEC INIT_GRAPHICAL_BATTLE
+
+
+
+
+WHILE endbattle = 0
+    'Essentially, the battle loop goes here until endbattle is 1'
+    EXEC COPY_MONSTER_DEST CURRENT_FAM, 10, 10
+    EXEC COPY_MONSTER_DEST_MIRROR_H 4, 240, 10
+    EXEC DRAW_MAX_HP_SELF F_HP(CURRENT_FAM)
+    EXEC DRAW_CURRENT_HP_SELF CURRENT_FAMILIAR(1)
+
+    POSITION 10, 20
+    exec PRINT_MOVE1_NAME
+    POSITION 0, 0
+    PRINT "Press any key to test damage"
+
+    INPUT ""; PLACEHOLDER
+    CURRENT_FAMILIAR(1) = CURRENT_FAMILIAR(1) - 1
+    
+    IF CURRENT_FAMILIAR(1) < 1 THEN endbattle = 1
+
+WEND
+
+EXEC DRAW_MAX_HP_SELF CURRENT_FAMILIAR(1)
+PRINT "Your monster: " ;
+EXEC PRINT_FAMILIAR_NAME 
+PRINT "has been defeated"
 INPUT ""; PLACEHOLDER
+
 

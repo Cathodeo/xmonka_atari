@@ -77,11 +77,11 @@ DIM F_COOLDOWN(4)
     F_COOLDOWN(3) = 1
     
 'Zubrix'
-    F_HP(3) = 11
-    F_TYPE(3) = 1
-    F_MOVE(3) = 11
-    F_ABILITY(3) = 0
-    F_COOLDOWN(3) = 3
+    F_HP(4) = 11
+    F_TYPE(4) = 1
+    F_MOVE(4) = 11
+    F_ABILITY(4) = 0
+    F_COOLDOWN(4) = 3
 
 
 

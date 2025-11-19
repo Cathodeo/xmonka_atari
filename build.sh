@@ -1,14 +1,14 @@
 #!/bin/bash
 # build.sh - merge FastBasic source files and compile
 
-mktemp /tmp/magical.bas
+mktemp /tmp/xmonka.bas
 
 # Concatenate in the proper order
-cat  monimg.bas init.bas familiar.bas battlemsg.bas main.bas > /tmp/magical.bas
+cat  iconset.bas mon1to5.bas init.bas familiar.bas battlemsg.bas battlegraphics.bas main.bas > /tmp/xmonka.bas
 
 # Compile with FastBasic
-fastbasic /tmp/magical.bas 
-cp /tmp/magical.xex ./magical.xex
+fastbasic /tmp/xmonka.bas 
+cp /tmp/xmonka.xex ./xmonka.xex
 
 # Remove temporary file
-rm "/tmp/magical.bas"
+rm "/tmp/xmonka.bas"
