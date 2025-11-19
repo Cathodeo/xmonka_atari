@@ -59,7 +59,7 @@ ENDPROC
 PROC DRAW_MAX_HP_SELF total
 
 FOR heart = 0 to total - 1
-    EXEC COPY_ICON 0,10 + (heart * 16),90
+    EXEC COPY_ICON 0,80 + (heart * 16),10
 NEXT heart
 
 ENDPROC
@@ -68,10 +68,40 @@ PROC DRAW_CURRENT_HP_SELF total
 
 IF total > 0
 FOR heart = 0 to total - 1
-    EXEC COPY_ICON 1,10 + (heart * 16),90
+    EXEC COPY_ICON 1,80 + (heart * 16),10
 NEXT heart
 ENDIF
 
 ENDPROC
 
 
+PROC DRAW_MAX_HP_FOE total
+
+FOR heart = 0 to total - 1
+    EXEC COPY_ICON 0, 130 + (heart * 16),80
+NEXT heart
+
+ENDPROC
+
+PROC DRAW_CURRENT_HP_FOE total
+
+IF total > 0
+FOR heart = 0 to total - 1
+    EXEC COPY_ICON 1,130 + (heart * 16),80
+NEXT heart
+ENDIF
+
+ENDPROC
+
+PROC DRAW_MAIN_UI
+
+  'Fight option '
+  EXEC COPY_ICON 10, 26, 76
+  'Hand option'
+  EXEC COPY_ICON 5, 26, 96
+  'Switch option'
+  EXEC COPY_ICON 3, 26, 116
+  'Do nothing option'
+  EXEC COPY_ICON 4, 26, 136
+
+ENDPROC
