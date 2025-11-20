@@ -36,8 +36,9 @@ PROC INIT_GRAPHICAL_BATTLE
     'The 2 color, 320x192 videomode'
     graphics 8
     pmgraphics 1
-    SETCOLOR 1, 0, 0
-    SETCOLOR 2, 1, 15
+    SETCOLOR 1, 11, 0
+    SETCOLOR 2, 11, 6
+    SETCOLOR -4, 4, 6 
 
 
 ENDPROC

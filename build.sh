@@ -4,7 +4,7 @@
 mktemp /tmp/xmonka.bas
 
 # Concatenate in the proper order
-cat  iconset.bas mon1to5.bas init.bas familiar.bas battlemsg.bas battlegraphics.bas main.bas > /tmp/xmonka.bas
+cat  iconset.bas mon1to5.bas icons2.bas init.bas familiar.bas battlemsg.bas battlegraphics.bas main.bas > /tmp/xmonka.bas
 
 # Compile with FastBasic
 fastbasic /tmp/xmonka.bas 

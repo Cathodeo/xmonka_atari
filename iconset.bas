@@ -1,7 +1,10 @@
 ' iconset.gr8
 ' width: 256
 ' height: 16
-'
+
+
+data nullimg() byte = $00, $00
+
 data icons1() byte = $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,
 data byte = $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,
 data byte = $00,$00,$00,$00,$00,$00,$00,$00,$C0,$03,$C0,$03,$C0,$03,$C0,$03,

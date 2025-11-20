@@ -16,6 +16,7 @@ DIM selection
 selection = -1
 DIM endbattle
 endbattle = 0
+cursor = 0
 
 WHILE selection < 0 OR selection > 4
     INPUT "SELECT FAMILIAR ID TO TEST, 1-4"; selection
@@ -25,15 +26,16 @@ CLS
 PRINT "You have selected the number", selection
 ?
 CURRENT_FAM = selection
-
+FOE_FAM = (-dpeek($D20A)) / 64
+exec INIT_NEW_FOE_FAMILIAR FOE_FAM
 exec INIT_NEW_FAMILIAR CURRENT_FAM
-exec FAMILIAR_STRING CURRENT_FAM
 
-exec PRINT_FAMILIAR_NAME
-exec PRINT_MOVE1_NAME
-exec PRINT_MOVE1_DESCRIPTION
-exec PRINT_ABILITY_NAME_
-exec PRINT_ABILITY_DESCRIPTION
+PRINT "FOE_FAM: ", FOE_FAM 
+PRINT "FOE_FAM_HP: ", CURRENT_FOE_FAMILIAR(1)
+
+input ""; placeholder
+
+
 
 INPUT "", PLACEHOLDER
 
@@ -42,32 +44,36 @@ INPUT ""; selection
 
 CLS
 
-MAX_HP_SELF_FAMILIAR = F_HP(CURRENT_FAM)
-CURRENT_HP_SELF_FAMILIAR = CURRENT_FAMILIAR(1)
+
 
 EXEC INIT_GRAPHICAL_BATTLE
 
-
 EXEC DRAW_MAIN_UI
 EXEC COPY_MONSTER_DEST CURRENT_FAM, 10, 10
-EXEC COPY_MONSTER_DEST_MIRROR_H 4, 240, 10
+EXEC COPY_MONSTER_DEST_MIRROR_H CURRENT_FOE_FAMILIAR(0), 240, 10
+
+EXEC DRAW_INITIAL_HP
+
+
+
 
 WHILE endbattle = 0
     'Essentially, the battle loop goes here until endbattle is 1'
-    EXEC DRAW_MAX_HP_SELF F_HP(CURRENT_FAM)
-    EXEC DRAW_CURRENT_HP_SELF CURRENT_FAMILIAR(1)
-    EXEC DRAW_MAX_HP_FOE 12
-    EXEC DRAW_CURRENT_HP_FOE 8
-    POSITION 10, 20
-    exec PRINT_MOVE1_NAME
-    POSITION 0, 0
-    PRINT "Press any key to test damage"
+    EXEC SHOWCURSOR cursor
+    EXEC SET_UI_OPTION cursor
+    PRINT ""; UIBuffer$
+    ?
 
-    INPUT ""; PLACEHOLDER
-    CURRENT_FAMILIAR(1) = CURRENT_FAMILIAR(1) - 1
+    'CURRENT_FAMILIAR(1) = CURRENT_FAMILIAR(1) - 1
+    
+    IF cursor < 3
+    cursor = (cursor + 1) 
+    else
+    cursor = 0
+    endif
     
     IF CURRENT_FAMILIAR(1) < 1 THEN endbattle = 1
-
+    INPUT "", PLACEHOLDER
 WEND
 
 EXEC DRAW_MAX_HP_SELF CURRENT_FAMILIAR(1)
