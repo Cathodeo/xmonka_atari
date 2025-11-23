@@ -3,9 +3,9 @@
 ' height: 16
 
 
-data nullimg() byte = $00, $00
+data nullimg() byte  = $00, $00
 
-data icons1() byte = $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,
+data icons1() byte ROM = $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,
 data byte = $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,
 data byte = $00,$00,$00,$00,$00,$00,$00,$00,$C0,$03,$C0,$03,$C0,$03,$C0,$03,
 data byte = $C0,$03,$C0,$03,$C0,$03,$C0,$03,$C0,$03,$C0,$03,$C0,$03,$C0,$03,

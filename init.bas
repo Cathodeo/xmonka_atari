@@ -27,19 +27,5 @@ data byte = $37,$B7,$77,$F7,$0F,$8F,$4F,$CF,$2F,$AF,$6F,$EF,$1F,$9F,$5F,$DF,$3F,
 DIM temp(8) BYTE
 
 
-'Initialize the videomode for the turn based card battle'
-PROC INIT_GRAPHICAL_BATTLE
 
-''Align display list to 1KB increments''
-''The display list in Atari 8 bit is a way to mix resolution and graphic/text modes'
-
-    'The 2 color, 320x192 videomode'
-    graphics 8
-    pmgraphics 1
-    SETCOLOR 1, 11, 0
-    SETCOLOR 2, 11, 6
-    SETCOLOR -4, 4, 6 
-
-
-ENDPROC
 

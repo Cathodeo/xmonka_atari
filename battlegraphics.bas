@@ -155,32 +155,67 @@ ENDPROC
 
 'Show the arrow pointing to the current option'
 
-PROC SHOWCURSOR option_no
+PROC MOVE_CURSOR cursor
 
-    IF option_no > 0
-        EXEC COPY_CURSOR 0, 16, 76 + (20 * option_no)
-        EXEC WIPE_CURSOR 0, 16, 76 + (20 * (option_no - 1))
+    CLS
+    IF cursor > 0
+        EXEC COPY_CURSOR 0, 16, 76 + (20 * cursor)
+        EXEC WIPE_CURSOR 0, 16, 76 + (20 * (cursor - 1))
     ELSE
         EXEC COPY_CURSOR 0, 16, 76     
         EXEC WIPE_CURSOR 0, 16, 76 + (20 * 3)  
     ENDIF
 
-ENDPROC
 
-PROC SET_UI_OPTION option_no
-
-    IF option_no = 0
+    IF cursor = 0
       UIBuffer$="Fight"
-    elif option_no = 1
+    elif cursor = 1
       UIBuffer$="Hand"
-    elif option_no = 2
+    elif cursor = 2
       UIBuffer$="Change familiar"
-    elif option_no = 3
+    elif cursor = 3
       UIBuffer$="Skip turn"
     endif
 
 
+    IF cursor < 3
+    cursor = (cursor + 1) 
+    else
+    cursor = 0
+    endif
+
+    PRINT ""; UIBuffer$
+
 ENDPROC
+
+
+PROC REDRAW_CURSOR cursor
+
+    CLS
+    IF cursor > 0
+        EXEC COPY_CURSOR 0, 16, 76 + (20 * cursor)
+        EXEC WIPE_CURSOR 0, 16, 76 + (20 * (cursor - 1))
+    ELSE
+        EXEC COPY_CURSOR 0, 16, 76     
+        EXEC WIPE_CURSOR 0, 16, 76 + (20 * 3)  
+    ENDIF
+
+
+    IF cursor = 0
+      UIBuffer$="Fight"
+    elif cursor = 1
+      UIBuffer$="Hand"
+    elif cursor = 2
+      UIBuffer$="Change familiar"
+    elif cursor = 3
+      UIBuffer$="Skip turn"
+    endif
+
+    PRINT ""; UIBuffer$
+
+
+ENDPROC
+
 
 
 PROC REDRAW_SELF_HP
@@ -199,4 +234,16 @@ PROC DRAW_INITIAL_HP
     EXEC REDRAW_FOE_HP
     EXEC REDRAW_SELF_HP
     
+ENDPROC
+
+
+PROC DRAW_FAMILIARS_UI
+
+EXEC FAMILIAR_STRING CURRENT_FAM
+EXEC DRAW_MAIN_UI
+EXEC COPY_MONSTER_DEST CURRENT_FAM, 10, 10
+EXEC COPY_MONSTER_DEST_MIRROR_H CURRENT_FOE_FAMILIAR(0), 240, 10
+EXEC DRAW_INITIAL_HP
+EXEC REDRAW_CURSOR 0
+
 ENDPROC

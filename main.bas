@@ -12,73 +12,54 @@
 'We enforce here to use an INT type and exclude invalid
 'values since BASIC won't automatically check for type safety
 
-DIM selection
+'Initial values'
+
 selection = -1
-DIM endbattle
 endbattle = 0
 cursor = 0
 
-WHILE selection < 0 OR selection > 4
-    INPUT "SELECT FAMILIAR ID TO TEST, 1-4"; selection
-    IF selection < 0 OR selection > 4 THEN PRINT "Invalid selection, try again"
-WEND 
-CLS
-PRINT "You have selected the number", selection
-?
-CURRENT_FAM = selection
-FOE_FAM = (-dpeek($D20A)) / 64
-exec INIT_NEW_FOE_FAMILIAR FOE_FAM
-exec INIT_NEW_FAMILIAR CURRENT_FAM
 
-PRINT "FOE_FAM: ", FOE_FAM 
-PRINT "FOE_FAM_HP: ", CURRENT_FOE_FAMILIAR(1)
+'Debug battle with a selected familiar
+'and a random foe one (see battleflow.bas)
 
-input ""; placeholder
+EXEC DEBUG_BATTLE selection
 
+'Init graphical routines and change videomode'
 
+EXEC SWITCH_TO_BATTLE_UI
 
-INPUT "", PLACEHOLDER
+'Draw both portraits, according to selection and random foe'
 
-INPUT ""; selection
+EXEC DRAW_FAMILIARS_UI
 
-
-CLS
-
-
-
-EXEC INIT_GRAPHICAL_BATTLE
-
-EXEC DRAW_MAIN_UI
-EXEC COPY_MONSTER_DEST CURRENT_FAM, 10, 10
-EXEC COPY_MONSTER_DEST_MIRROR_H CURRENT_FOE_FAMILIAR(0), 240, 10
-
-EXEC DRAW_INITIAL_HP
-
-
+    EXEC MOVE_CURSOR cursor
+    ?
 
 
 WHILE endbattle = 0
     'Essentially, the battle loop goes here until endbattle is 1'
-    EXEC SHOWCURSOR cursor
-    EXEC SET_UI_OPTION cursor
-    PRINT ""; UIBuffer$
-    ?
 
+    
     'CURRENT_FAMILIAR(1) = CURRENT_FAMILIAR(1) - 1
     
-    IF cursor < 3
-    cursor = (cursor + 1) 
-    else
-    cursor = 0
-    endif
-    
     IF CURRENT_FAMILIAR(1) < 1 THEN endbattle = 1
-    INPUT "", PLACEHOLDER
+    REPEAT
+        REPEAT : UNTIL KEY()
+        GET KEYPRESS
+    UNTIL KEYPRESS = 155 OR KEYPRESS = 127
+       
+    IF KEYPRESS = 155 AND CURSOR = 1
+        EXEC SHOW_MOVE_LIST
+    ELIF KEYPRESS = 127
+        EXEC MOVE_CURSOR cursor
+        ?
+
+    ENDIF
+
 WEND
 
 EXEC DRAW_MAX_HP_SELF CURRENT_FAMILIAR(1)
 PRINT "Your monster: " ;
-EXEC PRINT_FAMILIAR_NAME 
 PRINT "has been defeated"
 INPUT ""; PLACEHOLDER
 
